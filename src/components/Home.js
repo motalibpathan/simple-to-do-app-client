@@ -1,25 +1,28 @@
 import React, { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
+import auth from "../firebase.init";
 import Loading from "./Loading";
 import Task from "./Task";
 
 const Home = () => {
-  const email = "motalibpathan11@gmail.com";
+  const [user, userLoading] = useAuthState(auth);
   const [loading, setLoading] = useState(false);
+
   const {
     data: tasks,
     isLoading,
     refetch,
-  } = useQuery("tasks", () =>
-    fetch(`http://localhost:5000/task/${email}`).then((res) => res.json())
+  } = useQuery(["tasks", user.email], () =>
+    fetch(`http://localhost:5000/task/${user.email}`).then((res) => res.json())
   );
 
   const handleAddTask = (event) => {
     event.preventDefault();
     const taskName = event.target.taskName.value;
     const description = event.target.description.value;
-    const task = { email: "motalibpathan11@gmail.com", taskName, description };
+    const task = { email: user.email, taskName, description };
 
     fetch(`http://localhost:5000/task`, {
       method: "POST",
@@ -36,7 +39,7 @@ const Home = () => {
     event.target.reset();
   };
 
-  if (isLoading) {
+  if (isLoading || userLoading) {
     return <Loading />;
   }
 
