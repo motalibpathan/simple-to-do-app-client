@@ -15,7 +15,9 @@ const Home = () => {
     isLoading,
     refetch,
   } = useQuery(["tasks", user.email], () =>
-    fetch(`http://localhost:5000/task/${user.email}`).then((res) => res.json())
+    fetch(
+      `https://ancient-woodland-15731.herokuapp.com/task/${user.email}`
+    ).then((res) => res.json())
   );
 
   const handleAddTask = (event) => {
@@ -24,7 +26,7 @@ const Home = () => {
     const description = event.target.description.value;
     const task = { email: user.email, taskName, description };
 
-    fetch(`http://localhost:5000/task`, {
+    fetch(`https://ancient-woodland-15731.herokuapp.com/task`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -50,17 +52,17 @@ const Home = () => {
         <input
           type="text"
           placeholder="Task name"
-          class="input input-bordered w-full "
+          className="input input-bordered w-full "
           name="taskName"
           required
         />
         <textarea
-          class="textarea textarea-bordered w-full"
+          className="textarea textarea-bordered w-full"
           placeholder="Description"
           name="description"
           required
         ></textarea>
-        <button class="btn btn-success">Add Task</button>
+        <button className="btn btn-success">Add Task</button>
       </form>
       <div>
         <h1 className="my-5 text-2xl font-bold"> Task List: </h1>

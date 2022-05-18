@@ -1,17 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
+  useSendPasswordResetEmail,
   useSignInWithEmailAndPassword,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import auth from "../firebase.init";
 import Loading from "./Loading";
 
 const Login = () => {
   const [signInWitGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+  const emailRef = useRef("");
   const navigate = useNavigate();
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
+  const [sendPasswordResetEmail] = useSendPasswordResetEmail(auth);
 
   useEffect(() => {
     if (gUser || user) {
@@ -29,6 +33,17 @@ const Login = () => {
     signInWithEmailAndPassword(email, password);
   };
 
+  const handlePasswordReset = () => {
+    const email = emailRef.current.value;
+    if (email) {
+      console.log(email);
+      sendPasswordResetEmail(email);
+      toast.success("Password reset email send!");
+    } else {
+      toast.error("Please enter a email");
+    }
+  };
+
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <div className="card w-96 bg-base-100 shadow-xl">
@@ -42,6 +57,7 @@ const Login = () => {
               <input
                 type="email"
                 name="email"
+                ref={emailRef}
                 placeholder="Your Email"
                 className="input input-bordered w-full max-w-xs"
                 required
@@ -69,6 +85,12 @@ const Login = () => {
           {(error || gError) && (
             <p className="my-2 text-red-500">{error.message}</p>
           )}
+          <p>
+            Forgot password?{" "}
+            <button className="text-red-500" onClick={handlePasswordReset}>
+              Reset password
+            </button>
+          </p>
           <p>
             New to TO DO app ?{" "}
             <Link className="text-red-500" to={"/signup"}>

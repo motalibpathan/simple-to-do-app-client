@@ -5,7 +5,7 @@ const TaskList = ({ task, refetch, setLoading }) => {
   const { _id, taskName, description } = task;
   const handleDeleteTask = (id) => {
     setLoading(true);
-    fetch(`http://localhost:5000/task/${id}`, {
+    fetch(`https://ancient-woodland-15731.herokuapp.com/task/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -17,7 +17,7 @@ const TaskList = ({ task, refetch, setLoading }) => {
   };
   const handleCompleteTask = (id) => {
     setLoading(true);
-    fetch(`http://localhost:5000/task/${id}`, {
+    fetch(`https://ancient-woodland-15731.herokuapp.com/task/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -29,7 +29,7 @@ const TaskList = ({ task, refetch, setLoading }) => {
         if (data.modifiedCount > 0) {
           refetch();
           setLoading(false);
-          toast.success(taskName + "Task Complete");
+          toast.success(`${taskName} task Complete`);
         }
       });
   };

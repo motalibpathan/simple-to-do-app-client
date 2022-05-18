@@ -11,15 +11,15 @@ const Header = () => {
     return <Loading />;
   }
   return (
-    <div class=" bg-gray-100">
+    <div className=" bg-gray-100">
       <div className="navbar md:container mx-auto">
-        <div class="flex-1">
-          <Link to={"/"} class="btn btn-ghost normal-case text-xl">
+        <div className="flex-1">
+          <Link to={"/"} className="btn btn-ghost normal-case text-xl">
             TO DO APP
           </Link>
         </div>
-        <div class="flex-none">
-          <ul class="menu menu-horizontal p-0">
+        <div className="flex-none">
+          <ul className="menu menu-horizontal p-0">
             {!user && (
               <li>
                 <Link to={"/login"}>Login</Link>
@@ -29,7 +29,7 @@ const Header = () => {
               <div className="flex items-center">
                 <span className="font-bold mr-3">{user?.displayName}</span>
                 <button
-                  className=" font-bold rounded-xl py-2 px-7 bg-red-500 text-white"
+                  className="cursor-pointer font-bold rounded-xl py-2 px-7 bg-red-500 text-white"
                   onClick={() => signOut(auth)}
                 >
                   Logout
